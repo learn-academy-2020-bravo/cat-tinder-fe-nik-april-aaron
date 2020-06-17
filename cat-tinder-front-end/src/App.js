@@ -4,6 +4,7 @@ import "./App.css";
 import cats from "./cats";
 import Header from "./components/Header";
 import CatIndex from "./pages/CatIndex";
+import NewCat from "./pages/NewCat";
 
 const App = () => {
   const [allCats, setAllCats] = useState(cats);
@@ -13,12 +14,9 @@ const App = () => {
     <>
       <Router>
         <Header />
-        <p>Hey!</p>
         <Switch>
-          <Route
-            exact path="/"
-            render={(props) => <CatIndex cats={allCats} />}
-          />
+          <Route exact path="/" render={(props) => <NewCat />} />
+          <NewCat />
         </Switch>
       </Router>
     </>
