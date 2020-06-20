@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
-import cats from "./cats";
 import Header from "./components/Header";
 import CatIndex from "./pages/CatIndex";
 import NewCat from "./pages/NewCat";
 
 const App = () => {
-  const [allCats, setAllCats] = useState(cats);
+ 
   //allCats = this.state.cats
   //setAllCats = setState({allCats: cats})
   return (
@@ -15,8 +14,8 @@ const App = () => {
       <Router>
         <Header />
         <Switch>
-          <Route exact path="/" render={(props) => <NewCat />} />
-          <NewCat />
+          <Route exact path="/" render={ () => <CatIndex  />} />
+          <Route  path="/newcat" render={ () => <NewCat />} />
         </Switch>
       </Router>
     </>

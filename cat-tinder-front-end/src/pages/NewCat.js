@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { Redirect } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import "../App.css";
 
+
 const NewCat = () => {
   const [cats, setCats] = useState([]);
-
+  const [success, setSuccess] = useState(false)
   const [form, setState] = useState({
     name: "",
     age: "",
     enjoys: "",
   });
+ 
 
   const handleChange = (e) => {
     setState({
@@ -21,6 +24,7 @@ const NewCat = () => {
   };
 
   const handleSubmit = (e) => {
+    console.log(success)
     // keeps react from refreshing the page unnessarily
     e.preventDefault();
     // show the current state in the console (should see all cats created)
@@ -29,8 +33,26 @@ const NewCat = () => {
     // since the current cat state is immutable, we need to create a copy of it and add the new cat to it
     setCats((cats) => [...cats, form]);
     // // send all cats in the state to the backend to post to the database
-    // pushCats(form);
+    pushCats(form)
+    setSuccess(true)
   };
+  const pushCats = (freshCat) => {
+    // fetch URL to post new state of `cats` to database
+    return fetch("http://localhost:3000/cats", {
+      body: JSON.stringify(freshCat),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "POST"
+    })
+    .then(res => {
+      if(res.ok) {
+        console.log('You did it!')
+      }
+    })
+    // add error catching
+    // add success function
+  }
 
   return (
     <>
@@ -68,9 +90,10 @@ const NewCat = () => {
             value={form.enjoys}
           />
         </FormGroup>
-        <Button onClick={handleSubmit} id="submit">
+        <Button onClick={handleSubmit} htmlFor="submit"id="submit">
           Add New Cat
         </Button>
+        { success && <Redirect to="/"/> }
       </Form>
     </>
   );
